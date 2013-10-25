@@ -1,5 +1,3 @@
 require "dijkstra/version"
-
-module Dijkstra
-  # Your code goes here...
-end
+require "dijkstra/graph"
+require "dijkstra/path_finder"
