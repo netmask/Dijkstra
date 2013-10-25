@@ -1,14 +1,8 @@
 require 'spec_helper'
 
 describe Dijkstra::Graph do
-  Dijkstra
-
   let(:vertices) do
-    [
-     Vertex.new('C', 14),
-     Vertex.new('D', 9),
-     Vertex.new('E', 7)
-    ]
+     {'C' => 14, 'D' => 9, 'A' => 7 }
   end
 
   let(:node) do
