@@ -1,42 +1,51 @@
 module Dijkstra
   class PathFinder
-    attr_accessor :graph, :paths, :current_path,  :prev_cost
+    attr_accessor :graph
 
     def initialize(graph)
       self.graph = graph
-      self.paths = []
-      self.current_path = []
-      self.prev_cost = 0
     end
 
-    def short_distance(start_node, end_node)
-      node_walk start_node, end_node
-      paths.sort.first[0]
+    def short_distance(start_node_prefix, end_node_prefix)
+      ordered_nodes = []
+
+      start_node = self.graph[start_node_prefix]
+      end_node = self.graph[end_node_prefix]
+
+      ordered_nodes << start_node.id
+      start_node.value = 0
+      start_node.visited = true
+
+      until start_node.id == end_node_prefix do
+        start_node = mark_min_related(start_node)
+        ordered_nodes << start_node.id
+      end
+
+      ordered_nodes
     end
 
-    def node_walk(node, end_node, cost = 0)
-      current_node = self.graph[node]
+    def mark_min_related(start_node)
+      concrete_nodes = []
 
-      unless current_node.visited
-        @current_path << node[0]
+      start_node.vertices.each do |k, v|
+        node = self.graph[k]
 
-        visitables = current_node.vertices.select{|v|
-          !self.graph[v[0]].visited
-        }
-
-        current_node.visited = true
-
-        if @current_path[-1] == end_node
-          paths <<  [@current_path, cost]
-        else
-          next_one = visitables.sort_by do |v|
-            cost  + v[1]
+        if(!node.visited)
+          if node.value == INFINITY
+            node.value = start_node.value + v
+          else
+            node.value = v if v < node.value
           end
 
-          node_walk next_one[0][0], end_node, next_one[0][1]
+          concrete_nodes << node
         end
 
       end
+
+      visited = concrete_nodes.sort_by{|v| v.value }.first
+
+      visited.visited = true
+      visited
     end
 
   end
