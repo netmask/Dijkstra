@@ -9,5 +9,4 @@ describe Dijkstra::PathFinder do
     it{expect(result).to be_kind_of Array}
     it{expect(result).to be_eql ['A','E', 'D', 'C','B']}
   end
-
 end

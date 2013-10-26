@@ -18,6 +18,7 @@ module Dijkstra
 
       unless current_node.visited
         @current_path << node[0]
+
         visitables = current_node.vertices.select{|v|
           !self.graph[v[0]].visited
         }
