@@ -11,9 +11,10 @@ module Dijkstra
 
     def short_distance(start_node, end_node)
       node_walk start_node, end_node
+      paths.sort.first[0]
     end
 
-    def node_walk(node, end_node)
+    def node_walk(node, end_node, cost = 0)
       current_node = self.graph[node]
 
       unless current_node.visited
@@ -23,15 +24,20 @@ module Dijkstra
           !self.graph[v[0]].visited
         }
 
-        next_node = visitables.sort_by{|v| v[1] }[0][0]
         current_node.visited = true
 
         if @current_path[-1] == end_node
-          return @current_path
+          paths <<  [@current_path, cost]
         else
-          node_walk next_node, end_node
+          next_one = visitables.sort_by do |v|
+            cost  + v[1]
+          end
+
+          node_walk next_one[0][0], end_node, next_one[0][1]
         end
+
       end
     end
+
   end
 end
