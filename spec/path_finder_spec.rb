@@ -7,7 +7,7 @@ describe Dijkstra::PathFinder do
     let(:result){ subject.short_distance('A', 'B') }
 
     it{expect(result).to be_kind_of Array}
-    it{expect(result).to include ['E', 'D', 'C']}
+    it{expect(result).to be_eql ['A','E', 'D', 'C','B']}
   end
 
 end

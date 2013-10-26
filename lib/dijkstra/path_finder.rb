@@ -14,11 +14,22 @@ module Dijkstra
     end
 
     def node_walk(node, end_node)
-      @current_path << node
-      puts "#{@current_path} >>>>>>>>>>>>"
-      self.graph[node].vertices.each do |k, v|
-        node_walk(k, 1)
-#        node_walk k, end_node unless @current_path.include? k || k == end_node
+      current_node = self.graph[node]
+
+      unless current_node.visited
+        @current_path << node[0]
+        visitables = current_node.vertices.select{|v|
+          !self.graph[v[0]].visited
+        }
+
+        next_node = visitables.sort_by{|v| v[1] }[0][0]
+        current_node.visited = true
+
+        if @current_path[-1] == end_node
+          return @current_path
+        else
+          node_walk next_node, end_node
+        end
       end
     end
   end

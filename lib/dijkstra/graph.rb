@@ -1,10 +1,11 @@
 module Dijkstra
   class Node
-    attr_accessor :id, :vertices
+    attr_accessor :id, :vertices, :visited
 
     def initialize(id, vertices)
       self.id = id
       self.vertices = vertices
+      self.visited = false
     end
 
   end
